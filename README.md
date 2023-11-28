@@ -8,3 +8,5 @@ Restaurants can be filtered by:
 - Yelp Rating
 
 and sorted based off of those results
+
+Tasks tracked via Trello: https://trello.com/b/RqOa2jXG/colin-restaurant-near-me-app
