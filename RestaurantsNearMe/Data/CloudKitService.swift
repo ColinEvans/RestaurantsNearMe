@@ -9,46 +9,59 @@ import Foundation
 import Combine
 import CloudKit
 
-class CloudKitService: CloudKitServiceProviding {
-  let applicationContainer = CKContainer.default()
-  private let _fetchingStatus = PassthroughSubject<Bool, Never>()
-
+final class CloudKitService {
+  private let applicationContainer = CKContainer.default()
+  @APIKeyProvider private var apiKeyProvider: APIKey?
+  private lazy var cloudKitServiceActor = CloudKitServiceActor(_isFetchingFromCloudKit)
+  
   private let _accountStatus = CurrentValueSubject<CKAccountStatus, Never>(.couldNotDetermine)
+  private let _isFetchingFromCloudKit = PassthroughSubject<Bool, Never>()
+}
+
+extension CloudKitService: CloudKitServiceProviding {
   var accountStatus: AnyPublisher<CKAccountStatus, Never> {
     _accountStatus.eraseToAnyPublisher()
   }
   
-  init() {
-    Task.init {
-      try? await refreshAccountStatus()
-    }
+  var isFetchingFromCloudKit: AnyPublisher<Bool, Never> {
+    _isFetchingFromCloudKit.eraseToAnyPublisher()
   }
   
   func fetchAPIKeyByID() async throws {
+    await cloudKitServiceActor.updateIsFetching(to: true)
+    
     let id = CKRecord.ID(recordName: APIKey.name)
     guard _accountStatus.value == .available else {
+      await cloudKitServiceActor.updateIsFetching(to: false)
       throw CloudKitServiceError.containerNotAvailable
     }
     
     do {
       let apiRecord = try await applicationContainer.publicCloudDatabase.record(for: id)
       guard let recordValue = apiRecord.object(forKey: APIKeyNames.keyName.rawValue) as? String else {
+        await cloudKitServiceActor.updateIsFetching(to: false)
         throw CloudKitServiceError.incorrectDataFormat
       }
 
-      APIKeyProvider.key = APIKey(keyName: recordValue)
+      apiKeyProvider = APIKey(keyName: recordValue)
+      await cloudKitServiceActor.updateIsFetching(to: false)
     } catch {
+      await cloudKitServiceActor.updateIsFetching(to: false)
       throw CloudKitServiceError.fetchFailed
     }
   }
   
   func refreshAccountStatus() async throws {
-    defer { _fetchingStatus.send(false) }
-      
+    guard await !cloudKitServiceActor.isFetching else {
+      throw CloudKitServiceError.fetchFailed
+    }
+    
+    async let status = applicationContainer.accountStatus()
     do {
-      let status = try await applicationContainer.accountStatus()
-      _accountStatus.send(status)
+      try await _accountStatus.send(status)
+      await cloudKitServiceActor.updateIsFetching(to: false)
     } catch {
+      await cloudKitServiceActor.updateIsFetching(to: false)
       throw CloudKitServiceError.containerNotAvailable
     }
   }

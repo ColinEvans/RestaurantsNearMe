@@ -6,9 +6,18 @@
 //
 
 import Foundation
-import Combine
-import CloudKit
 
+@propertyWrapper
 struct APIKeyProvider {
-  static var key: APIKey?
+  private var key: APIKey?
+
+  var wrappedValue: APIKey? {
+    get {
+      return key
+    }
+    set {
+      // TODO update the envrionment with the new key
+      key = newValue
+    }
+  }
 }

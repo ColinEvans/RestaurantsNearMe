@@ -17,24 +17,23 @@ class SplashScreenViewModel: ObservableObject {
   private let cloudKitService: any CloudKitServiceProviding
   
   func fetch() async throws {
-    defer { isFetching = false }
-    isFetching = true
     do {
       try await cloudKitService.fetchAPIKeyByID()
-    } catch {
-      if let cloudKitError = error as? CloudKitServiceError {
-        fetchingError = cloudKitError.toErrorString()
-      }
+    } catch let ckError where ckError is CloudKitServiceError {
+      fetchingError = String(describing: ckError)
     }
   }
 
   init(cloudKitService: some CloudKitServiceProviding) {
     self.cloudKitService = cloudKitService
+    cloudKitService.isFetchingFromCloudKit.receive(on: DispatchQueue.main).sink {
+      self.isFetching = $0
+    }.store(in: &cancellables)
   }
 }
 
-extension SplashScreenViewModel {
+/*extension SplashScreenViewModel {
   static func preview() -> SplashScreenViewModel {
-    SplashScreenViewModel(cloudKitService: MockCloudKitService())
+    //SplashScreenViewModel(cloudKitService: MockCloudKitService())
   }
-}
+}*/

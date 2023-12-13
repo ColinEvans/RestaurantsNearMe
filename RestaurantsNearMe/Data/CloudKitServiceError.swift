@@ -13,12 +13,14 @@ enum CloudKitServiceError: Error {
   case incorrectDataFormat
 }
 
-extension CloudKitServiceError {
-  func toErrorString() -> String {
+extension CloudKitServiceError: CustomStringConvertible {
+  var description: String {
     switch self {
     case .containerNotAvailable:
       return "Failed to connect to server"
-    case .fetchFailed, .incorrectDataFormat:
+    case .fetchFailed:
+      return "Unable to perform server connection"
+    case .incorrectDataFormat:
       return "Incorrect data format"
     }
   }

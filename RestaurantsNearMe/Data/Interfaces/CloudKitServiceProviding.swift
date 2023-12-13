@@ -9,9 +9,10 @@ import Foundation
 import Combine
 import CloudKit
 
+// sourcery: AutoMockable
 protocol CloudKitServiceProviding {
-  var applicationContainer: CKContainer { get }
   var accountStatus: AnyPublisher<CKAccountStatus, Never> { get }
+  var isFetchingFromCloudKit: AnyPublisher<Bool, Never> { get }
 
   func fetchAPIKeyByID() async throws
   func refreshAccountStatus() async throws

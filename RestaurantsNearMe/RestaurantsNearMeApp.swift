@@ -10,7 +10,6 @@ import SwiftUI
 @main
 struct RestaurantsNearMeApp: App {
   let cloudKitService = CloudKitService()
-  let deviceOrientationProvider = DeviceOrientationProvider()
   let splashScreenViewModel: SplashScreenViewModel
 
   init() {
@@ -20,8 +19,7 @@ struct RestaurantsNearMeApp: App {
   var body: some Scene {
     WindowGroup {
       ContentView(
-        splashScreenViewModel: splashScreenViewModel,
-        orientationProvider: deviceOrientationProvider
+        splashScreenViewModel: splashScreenViewModel
       )
     }
   }

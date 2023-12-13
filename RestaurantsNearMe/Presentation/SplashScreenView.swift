@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SplashScreenView: View {
   @ObservedObject var viewModel: SplashScreenViewModel
-  var errorToPresent: String?
+  var errorToPresent: String? = "Testing Toast"
 
   var body: some View {
     VStack {
@@ -29,11 +29,9 @@ struct SplashScreenView: View {
   }
 }
 
-#Preview {
+/*#Preview {
   Group {
     let viewModel = SplashScreenViewModel.preview()
     SplashScreenView(viewModel: viewModel)
-    SplashScreenView(viewModel: viewModel, errorToPresent: "Error")
-      .environment(\.colorScheme, .dark)
   }
-}
+}*/
