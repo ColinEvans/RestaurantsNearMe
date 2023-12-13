@@ -9,29 +9,43 @@ import SwiftUI
 
 struct SplashScreenView: View {
   @ObservedObject var viewModel: SplashScreenViewModel
-  var errorToPresent: String? = "Testing Toast"
+  var errorToPresent: String?
 
   var body: some View {
-    VStack {
-      Text("Restaurants Near Me")
-        .font(.title)
-      
-      if let errorToPresent {
-        Toast(message: errorToPresent)
-      } else {
-        ProgressView()
+    GeometryReader { proxy in
+      VStack {
+        Text("Restaurants Near Me")
+          .font(.title)
+        
+        if let errorToPresent {
+          Toast(
+            message: errorToPresent,
+            parentSize: proxy.size
+          )
+        } else {
+          ProgressView()
+        }
+      }.frame(
+        maxWidth: .infinity,
+        maxHeight: .infinity
+      )
+      .task {
+        try? await viewModel.fetch()
       }
-    }.task {
-      try? await viewModel.fetch()
     }
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
-    .background()
   }
 }
 
-/*#Preview {
+#Preview {
   Group {
     let viewModel = SplashScreenViewModel.preview()
-    SplashScreenView(viewModel: viewModel)
+    SplashScreenView(
+      viewModel: viewModel,
+      errorToPresent: "Testing Toast"
+    )
+    SplashScreenView(
+      viewModel: viewModel,
+      errorToPresent: nil
+    )
   }
-}*/
+}

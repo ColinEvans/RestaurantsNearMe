@@ -9,24 +9,26 @@ import SwiftUI
 
 struct Toast: View {
   let message: String
-  @Environment(\.deviceOrientation) var deviceOrientation
+  var parentSize: CGSize
 
   var body: some View {
-    RoundedRectangle(cornerRadius: 10.0)
-      .strokeBorder()
-      .fill(Color.clear)
-      .containerRelativeFrame(.horizontal) { layout, _ in
-        layout * UIConstants.toastWidthRatio
-      }
-      .containerRelativeFrame(.vertical) { layout, _ in
-        deviceOrientation == .portrait
-          ? layout * UIConstants.toastHeightRatioPortrait
-          : layout * UIConstants.toastHeightRatioLandscape
-      }.overlay {
-        Text(message)
-          .font(.largeTitle)
-          .bold()
-      }
+      RoundedRectangle(cornerRadius: 10.0)
+        .strokeBorder()
+        .fill(Color.clear)
+        .frame(
+          width: parentSize.width * UIConstants.toastWidthRatio,
+          height: isLandscape(parentSize)
+            ? parentSize.height * UIConstants.toastHeightRatioLandscape
+            : parentSize.height * UIConstants.toastHeightRatioPortrait
+        ).overlay {
+          Text(message)
+            .font(.largeTitle)
+            .bold()
+        }
+  }
+  
+  private func isLandscape(_ size: CGSize) -> Bool {
+    size.width > size.height
   }
   
   private struct UIConstants {
@@ -37,5 +39,8 @@ struct Toast: View {
 }
 
 #Preview {
-  Toast(message: "Testing toast")
+  Toast(
+    message: "Testing toast",
+    parentSize: CGSize(width: 400, height: 400)
+  )
 }

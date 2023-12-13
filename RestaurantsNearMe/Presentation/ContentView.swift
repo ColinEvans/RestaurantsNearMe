@@ -10,7 +10,6 @@ import Combine
 
 struct ContentView: View {
   @ObservedObject var splashScreenViewModel: SplashScreenViewModel
-  @State private var orientation: UIDeviceOrientation = .unknown
 
   var body: some View {
     Group {
@@ -26,10 +25,10 @@ struct ContentView: View {
   }
 }
 
-/*struct ContentView_Previews: PreviewProvider {
+struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     ContentView(
       splashScreenViewModel: SplashScreenViewModel.preview()
     )
   }
-}*/
+}

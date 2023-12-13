@@ -32,8 +32,22 @@ class SplashScreenViewModel: ObservableObject {
   }
 }
 
-/*extension SplashScreenViewModel {
+/*
+ var underlyingAccountStatus: (AnyPublisher<CKAccountStatus, Never>)!
+ var isFetchingFromCloudKit: AnyPublisher<Bool, Never> {
+     get { return underlyingIsFetchingFromCloudKit }
+     set(value) { underlyingIsFetchingFromCloudKit = value }
+ }
+ var underlyingIsFetchingFromCloudKit: (AnyPublisher<Bool, Never>)!
+ */
+
+
+extension SplashScreenViewModel {
   static func preview() -> SplashScreenViewModel {
-    //SplashScreenViewModel(cloudKitService: MockCloudKitService())
+    let mock = CloudKitServiceProvidingMock()
+    mock.underlyingAccountStatus = PassthroughSubject<CKAccountStatus, Never>().eraseToAnyPublisher()
+    mock.underlyingIsFetchingFromCloudKit = PassthroughSubject<Bool, Never>().eraseToAnyPublisher()
+    
+    return SplashScreenViewModel(cloudKitService: mock)
   }
-}*/
+}
