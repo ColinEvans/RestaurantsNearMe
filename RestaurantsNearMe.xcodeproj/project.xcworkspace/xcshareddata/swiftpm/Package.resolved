@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "networking",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ColinEvans/Networking",
+      "state" : {
+        "branch" : "develop",
+        "revision" : "4c65940b656b8bb9f0e74181fb9dc7900a521dda"
+      }
+    }
+  ],
+  "version" : 2
+}

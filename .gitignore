@@ -1,0 +1,6 @@
+# iOS files
+.DS_Store
+
+# user-specific xcode data
+xcuserdata
+*.xccheckout
