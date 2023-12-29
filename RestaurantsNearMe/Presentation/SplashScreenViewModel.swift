@@ -5,47 +5,59 @@
 //  Created by Colin Evans on 2023-11-24.
 //
 
+// TODO: Figure out where to refresh account status then from there we can call fetch
+
+
 import Foundation
 import Combine
 import CloudKit
 
 class SplashScreenViewModel: ObservableObject {
-  @Published var isFetching = false
+  private var isFetching = PassthroughSubject<Bool, Never>()
   @Published var fetchingError: String?
+  @Published var showLoadingView = true
   
   private var cancellables = Set<AnyCancellable>()
   private let cloudKitService: any CloudKitServiceProviding
   
-  func fetch() async throws {
+  init(cloudKitService: some CloudKitServiceProviding) {
+    self.cloudKitService = cloudKitService
+    cloudKitService.isFetchingFromCloudKit
+      .receive(on: DispatchQueue.main)
+      .sink { self.isFetching.send($0) }
+      .store(in: &cancellables)
+
+    isFetching
+      .combineLatest($fetchingError)
+      .receive(on: DispatchQueue.main)
+      .map { $0 || $1 != nil }
+      .assign(to: &$showLoadingView)
+  }
+
+  func fetch() async {
     do {
       try await cloudKitService.fetchAPIKeyByID()
     } catch let ckError where ckError is CloudKitServiceError {
-      fetchingError = String(describing: ckError)
+      DispatchQueue.main.async {
+        self.fetchingError = String(describing: ckError)
+      }
+    } catch {
+      print("Unexpected error occured")
     }
   }
 
-  init(cloudKitService: some CloudKitServiceProviding) {
-    self.cloudKitService = cloudKitService
-    cloudKitService.isFetchingFromCloudKit.receive(on: DispatchQueue.main).sink {
-      self.isFetching = $0
-    }.store(in: &cancellables)
+  @MainActor func refresh() {
+    fetchingError = nil
+    Task.detached {
+      await self.fetch()
+    }
   }
 }
-
-/*
- var underlyingAccountStatus: (AnyPublisher<CKAccountStatus, Never>)!
- var isFetchingFromCloudKit: AnyPublisher<Bool, Never> {
-     get { return underlyingIsFetchingFromCloudKit }
-     set(value) { underlyingIsFetchingFromCloudKit = value }
- }
- var underlyingIsFetchingFromCloudKit: (AnyPublisher<Bool, Never>)!
- */
-
 
 extension SplashScreenViewModel {
   static func preview() -> SplashScreenViewModel {
     let mock = CloudKitServiceProvidingMock()
-    mock.underlyingAccountStatus = PassthroughSubject<CKAccountStatus, Never>().eraseToAnyPublisher()
+    mock.underlyingAccountStatus = CurrentValueSubject<CKAccountStatus, Never>(.available)
     mock.underlyingIsFetchingFromCloudKit = PassthroughSubject<Bool, Never>().eraseToAnyPublisher()
     
     return SplashScreenViewModel(cloudKitService: mock)

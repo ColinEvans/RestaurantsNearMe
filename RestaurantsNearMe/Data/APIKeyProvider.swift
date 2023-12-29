@@ -9,15 +9,10 @@ import Foundation
 
 @propertyWrapper
 struct APIKeyProvider {
-  private var key: APIKey?
+  var wrappedValue: APIKey
 
-  var wrappedValue: APIKey? {
-    get {
-      return key
-    }
-    set {
-      // TODO update the envrionment with the new key
-      key = newValue
-    }
+  /// Initializes an empty `APIKey` of type `wrappedValue`
+  init(_ wrappedValue: APIKey.Source) {
+    self.wrappedValue = APIKey(source: wrappedValue)
   }
 }

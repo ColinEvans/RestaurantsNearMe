@@ -11,7 +11,7 @@ import CloudKit
 
 // sourcery: AutoMockable
 protocol CloudKitServiceProviding {
-  var accountStatus: AnyPublisher<CKAccountStatus, Never> { get }
+  var accountStatus: CurrentValueSubject<CKAccountStatus, Never> { get }
   var isFetchingFromCloudKit: AnyPublisher<Bool, Never> { get }
 
   func fetchAPIKeyByID() async throws

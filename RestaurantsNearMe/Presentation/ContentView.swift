@@ -13,14 +13,16 @@ struct ContentView: View {
 
   var body: some View {
     Group {
-      if splashScreenViewModel.isFetching {
-        SplashScreenView(
-          viewModel: splashScreenViewModel,
-          errorToPresent: splashScreenViewModel.fetchingError
+      if splashScreenViewModel.showLoadingView {
+        LoadingView(
+          errorToPresent: splashScreenViewModel.fetchingError,
+          viewModel: splashScreenViewModel
         )
       } else {
         Text("Loading Complete")
       }
+    }.task {
+      await splashScreenViewModel.fetch()
     }
   }
 }

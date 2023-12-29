@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct RestaurantsNearMeApp: App {
-  let cloudKitService = CloudKitService()
+  let cloudKitService = CloudKitService(apiKeySource: .cloudKit)
   let splashScreenViewModel: SplashScreenViewModel
 
   init() {

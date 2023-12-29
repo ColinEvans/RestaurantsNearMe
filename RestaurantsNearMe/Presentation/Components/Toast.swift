@@ -9,22 +9,26 @@ import SwiftUI
 
 struct Toast: View {
   let message: String
-  var parentSize: CGSize
 
   var body: some View {
-      RoundedRectangle(cornerRadius: 10.0)
-        .strokeBorder()
-        .fill(Color.clear)
-        .frame(
-          width: parentSize.width * UIConstants.toastWidthRatio,
-          height: isLandscape(parentSize)
-            ? parentSize.height * UIConstants.toastHeightRatioLandscape
-            : parentSize.height * UIConstants.toastHeightRatioPortrait
-        ).overlay {
-          Text(message)
-            .font(.largeTitle)
-            .bold()
-        }
+    GeometryReader { proxy in
+      ZStack {
+        RoundedRectangle(cornerRadius: 10.0)
+          .strokeBorder()
+        Text(message)
+          .font(.largeTitle)
+          .bold()
+          .padding()
+      }
+      .frame(
+        width: proxy.size.width * UIConstants.toastWidthRatio
+      )
+      .frame(
+        maxWidth: .infinity,
+        minHeight: proxy.size.height * 0.1,
+        maxHeight: proxy.size.height * 0.25
+      )
+    }
   }
   
   private func isLandscape(_ size: CGSize) -> Bool {
@@ -39,8 +43,5 @@ struct Toast: View {
 }
 
 #Preview {
-  Toast(
-    message: "Testing toast",
-    parentSize: CGSize(width: 400, height: 400)
-  )
+  Toast(message: "Testing toast, Should be two lines")
 }

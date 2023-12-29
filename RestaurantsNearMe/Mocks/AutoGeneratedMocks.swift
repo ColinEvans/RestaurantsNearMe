@@ -39,11 +39,11 @@ import Combine
 class CloudKitServiceProvidingMock: CloudKitServiceProviding {
 
 
-    var accountStatus: AnyPublisher<CKAccountStatus, Never> {
+    var accountStatus: CurrentValueSubject<CKAccountStatus, Never> {
         get { return underlyingAccountStatus }
         set(value) { underlyingAccountStatus = value }
     }
-    var underlyingAccountStatus: (AnyPublisher<CKAccountStatus, Never>)!
+    var underlyingAccountStatus: (CurrentValueSubject<CKAccountStatus, Never>)!
     var isFetchingFromCloudKit: AnyPublisher<Bool, Never> {
         get { return underlyingIsFetchingFromCloudKit }
         set(value) { underlyingIsFetchingFromCloudKit = value }

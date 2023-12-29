@@ -12,7 +12,7 @@
 		3901589F2A984428001BF219 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3901589E2A984428001BF219 /* Assets.xcassets */; };
 		390158A22A984428001BF219 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 390158A12A984428001BF219 /* Preview Assets.xcassets */; };
 		390570232B09962200BC0D66 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = 390570222B09962200BC0D66 /* Networking */; };
-		39477BD02B114A4500D9895B /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39477BCF2B114A4500D9895B /* SplashScreenView.swift */; };
+		39477BD02B114A4500D9895B /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39477BCF2B114A4500D9895B /* LoadingView.swift */; };
 		39477BD42B1191A200D9895B /* SplashScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39477BD32B1191A200D9895B /* SplashScreenViewModel.swift */; };
 		39477BDD2B12A1E300D9895B /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39477BDC2B12A1E300D9895B /* Toast.swift */; };
 		39477BEA2B14FF4600D9895B /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39477BE92B14FF4600D9895B /* APIKey.swift */; };
@@ -30,7 +30,7 @@
 		3901589C2A984424001BF219 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3901589E2A984428001BF219 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		390158A12A984428001BF219 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		39477BCF2B114A4500D9895B /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
+		39477BCF2B114A4500D9895B /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		39477BD32B1191A200D9895B /* SplashScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenViewModel.swift; sourceTree = "<group>"; };
 		39477BDC2B12A1E300D9895B /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		39477BE92B14FF4600D9895B /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
@@ -106,7 +106,7 @@
 			children = (
 				39477BDB2B12A1C600D9895B /* Components */,
 				3901589C2A984424001BF219 /* ContentView.swift */,
-				39477BCF2B114A4500D9895B /* SplashScreenView.swift */,
+				39477BCF2B114A4500D9895B /* LoadingView.swift */,
 				39477BD32B1191A200D9895B /* SplashScreenViewModel.swift */,
 			);
 			path = Presentation;
@@ -148,10 +148,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 390158A52A984428001BF219 /* Build configuration list for PBXNativeTarget "RestaurantsNearMe" */;
 			buildPhases = (
+				394D6E822B2A43C40041B56E /* ShellScript */,
 				390158932A984424001BF219 /* Sources */,
 				390158942A984424001BF219 /* Frameworks */,
 				390158952A984424001BF219 /* Resources */,
-				394D6E822B2A43C40041B56E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -216,6 +216,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		394D6E822B2A43C40041B56E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -226,6 +227,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -247,7 +249,7 @@
 				39477BEC2B150EC000D9895B /* CloudKitService.swift in Sources */,
 				39AE27842AFD5E9000BAAF6A /* APIKeyProvider.swift in Sources */,
 				39477BEE2B153E9200D9895B /* CloudKitServiceProviding.swift in Sources */,
-				39477BD02B114A4500D9895B /* SplashScreenView.swift in Sources */,
+				39477BD02B114A4500D9895B /* LoadingView.swift in Sources */,
 				39477BF02B1542F000D9895B /* CloudKitServiceError.swift in Sources */,
 				39477BDD2B12A1E300D9895B /* Toast.swift in Sources */,
 			);
