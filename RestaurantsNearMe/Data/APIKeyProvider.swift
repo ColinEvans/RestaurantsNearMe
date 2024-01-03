@@ -8,7 +8,7 @@
 import Foundation
 
 @propertyWrapper
-struct APIKeyProvider {
+class APIKeyProvider {
   var wrappedValue: APIKey
 
   /// Initializes an empty `APIKey` of type `wrappedValue`

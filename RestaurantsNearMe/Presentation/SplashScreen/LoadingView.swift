@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct LoadingView: View {
-  var errorToPresent: String?
-  @ObservedObject var viewModel: SplashScreenViewModel
+  @ObservedObject var viewModel: SplashScreenViewModel<YelpRequest>
 
   var body: some View {
     GeometryReader { proxy in
@@ -17,9 +16,10 @@ struct LoadingView: View {
         VStack {
           Text("Restaurants Near Me")
             .font(.title)
+            .foregroundStyle(Color.white)
           
-          if let errorToPresent {
-            Toast(message: errorToPresent)
+          if let error = viewModel.fetchingError {
+            Toast(message: error)
           } else {
             ProgressView()
           }
@@ -28,7 +28,9 @@ struct LoadingView: View {
           height: proxy.size.height
         )
       }
-      .scrollIndicatorsFlash(trigger: errorToPresent)
+      .task {
+        await viewModel.fetch()
+      }
       .refreshable {
         viewModel.refresh()
       }
@@ -38,10 +40,8 @@ struct LoadingView: View {
 
 #Preview {
   Group {
-    let viewModel = SplashScreenViewModel.preview()
     LoadingView(
-      errorToPresent: "Testing Toast, 2 lines",
-      viewModel: viewModel
+      viewModel: .preview()
     )
   }
 }

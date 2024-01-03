@@ -9,17 +9,17 @@ import SwiftUI
 
 @main
 struct RestaurantsNearMeApp: App {
-  let cloudKitService = CloudKitService(apiKeySource: .cloudKit)
-  let splashScreenViewModel: SplashScreenViewModel
+  let assembly = RestaurantsNearMeAssembly()
 
   init() {
-    splashScreenViewModel = SplashScreenViewModel(cloudKitService: cloudKitService)
+    assembly.assemble()
   }
 
   var body: some Scene {
     WindowGroup {
       ContentView(
-        splashScreenViewModel: splashScreenViewModel
+        splashScreenViewModel: assembly.splashScreenViewModel,
+        restaurantListViewModel: assembly.contentViewModel
       )
     }
   }

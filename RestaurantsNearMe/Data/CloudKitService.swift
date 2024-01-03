@@ -11,14 +11,14 @@ import CloudKit
 
 final class CloudKitService {
   private let applicationContainer = CKContainer.default()
-  @APIKeyProvider private var apiKeyProvider: APIKey
+  private(set) var apiKey: APIKey
   private lazy var cloudKitServiceActor = CloudKitServiceActor(_isFetchingFromCloudKit)
   
   let accountStatus = CurrentValueSubject<CKAccountStatus, Never>(.couldNotDetermine)
   private let _isFetchingFromCloudKit = PassthroughSubject<Bool, Never>()
   
-  init(apiKeySource: APIKey.Source) {
-    _apiKeyProvider = .init(apiKeySource)
+  init(apiKey: APIKey) {
+    self.apiKey = apiKey
   }
   
   private func performCloudKitAction(_ interaction: () async throws -> Void) async throws {
@@ -44,7 +44,8 @@ extension CloudKitService: CloudKitServiceProviding {
   
   func fetchAPIKeyByID() async throws {
     try await performCloudKitAction {
-      let id = CKRecord.ID(recordName: apiKeyProvider.keyId.uuidString)
+      let id = CKRecord.ID(recordName: apiKey.keyId.uuidString)
+  
       do {
         let apiRecord = try await applicationContainer.publicCloudDatabase.record(for: id)
         guard let recordValue = apiRecord.object(forKey: "keyName") as? String else {
@@ -52,7 +53,7 @@ extension CloudKitService: CloudKitServiceProviding {
           throw CloudKitServiceError.incorrectDataFormat
         }
 
-        apiKeyProvider.value = recordValue
+        apiKey.value = recordValue
       } catch {
         throw CloudKitServiceError.fetchFailed
       }
