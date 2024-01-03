@@ -18,7 +18,7 @@ class RestaurantsNearMeAssembly {
 
   @APIKeyProvider private var apiKeyProvider: APIKey
   var splashScreenViewModel: SplashScreenViewModel<YelpRequest>!
-  var contentViewModel: RestaurantListViewModel<YelpRequest>!
+  var restaurantListViewModel: RestaurantListViewModel<YelpRequest>!
   var urlRequestBuilder: URLRequestBuilder!
   var yelpAPIRequest: YelpRequest!
   
@@ -39,7 +39,7 @@ class RestaurantsNearMeAssembly {
       cloudKitService: cloudKitService,
       apiRequesting: yelpAPIRequest
     )
-    contentViewModel = RestaurantListViewModel(
+    restaurantListViewModel = RestaurantListViewModel(
       locationProvider: locationProvider,
       yelpRequest: yelpAPIRequest
     )
