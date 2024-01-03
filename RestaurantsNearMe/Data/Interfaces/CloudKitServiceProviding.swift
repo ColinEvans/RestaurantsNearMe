@@ -13,6 +13,7 @@ import CloudKit
 protocol CloudKitServiceProviding {
   var accountStatus: CurrentValueSubject<CKAccountStatus, Never> { get }
   var isFetchingFromCloudKit: AnyPublisher<Bool, Never> { get }
+  var apiKey: APIKey { get }
 
   func fetchAPIKeyByID() async throws
   func refreshAccountStatus() async throws

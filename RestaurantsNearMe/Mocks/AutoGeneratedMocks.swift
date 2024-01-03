@@ -49,6 +49,11 @@ class CloudKitServiceProvidingMock: CloudKitServiceProviding {
         set(value) { underlyingIsFetchingFromCloudKit = value }
     }
     var underlyingIsFetchingFromCloudKit: (AnyPublisher<Bool, Never>)!
+    var apiKey: APIKey {
+        get { return underlyingApiKey }
+        set(value) { underlyingApiKey = value }
+    }
+    var underlyingApiKey: (APIKey)!
 
 
     //MARK: - fetchAPIKeyByID
@@ -83,6 +88,72 @@ class CloudKitServiceProvidingMock: CloudKitServiceProviding {
         }
         refreshAccountStatusCallsCount += 1
         try await refreshAccountStatusClosure?()
+    }
+
+}
+class LocationProvidingMock: LocationProviding {
+
+
+    var locationErrorPropogator: AnyPublisher<LocationError, Never> {
+        get { return underlyingLocationErrorPropogator }
+        set(value) { underlyingLocationErrorPropogator = value }
+    }
+    var underlyingLocationErrorPropogator: (AnyPublisher<LocationError, Never>)!
+    var currentLocation: AnyPublisher<CLLocation, Never> {
+        get { return underlyingCurrentLocation }
+        set(value) { underlyingCurrentLocation = value }
+    }
+    var underlyingCurrentLocation: (AnyPublisher<CLLocation, Never>)!
+    var areLocationPermissionsValid: AnyPublisher<Bool, Never> {
+        get { return underlyingAreLocationPermissionsValid }
+        set(value) { underlyingAreLocationPermissionsValid = value }
+    }
+    var underlyingAreLocationPermissionsValid: (AnyPublisher<Bool, Never>)!
+
+
+    //MARK: - askLocationPermissions
+
+    var askLocationPermissionsCallsCount = 0
+    var askLocationPermissionsCalled: Bool {
+        return askLocationPermissionsCallsCount > 0
+    }
+    var askLocationPermissionsClosure: (() -> Void)?
+
+    func askLocationPermissions() {
+        askLocationPermissionsCallsCount += 1
+        askLocationPermissionsClosure?()
+    }
+
+}
+class YelpAPIRequestingMock: YelpAPIRequesting {
+
+
+
+
+    //MARK: - updateAPIKey
+
+    var updateAPIKeyCallsCount = 0
+    var updateAPIKeyCalled: Bool {
+        return updateAPIKeyCallsCount > 0
+    }
+    var updateAPIKeyClosure: (() -> Void)?
+
+    func updateAPIKey() {
+        updateAPIKeyCallsCount += 1
+        updateAPIKeyClosure?()
+    }
+
+    //MARK: - getUpdatedRestaurants
+
+    var getUpdatedRestaurantsCallsCount = 0
+    var getUpdatedRestaurantsCalled: Bool {
+        return getUpdatedRestaurantsCallsCount > 0
+    }
+    var getUpdatedRestaurantsClosure: (() async -> Void)?
+
+    func getUpdatedRestaurants() async {
+        getUpdatedRestaurantsCallsCount += 1
+        await getUpdatedRestaurantsClosure?()
     }
 
 }
