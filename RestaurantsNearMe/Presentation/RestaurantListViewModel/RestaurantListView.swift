@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RestaurantListView: View {
-  @ObservedObject var viewModel: RestaurantListViewModel<YelpRequest>
+  @ObservedObject var viewModel: RestaurantListViewModel
   
   var body: some View {
     ScrollView(.vertical) {
@@ -17,9 +17,7 @@ struct RestaurantListView: View {
         .foregroundStyle(Color.white)
     }
     .onAppear {
-      if !viewModel.areLocationPermissionsValid {
-        viewModel.askLocationPermissions()
-      }
+      viewModel.askLocationPermissionsIfNeeded()
     }
     .alert(isPresented: $viewModel.showLocationRedirect) {
       locationRedirectAlert

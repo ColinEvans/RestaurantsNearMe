@@ -49,11 +49,11 @@ class CloudKitServiceProvidingMock: CloudKitServiceProviding {
         set(value) { underlyingIsFetchingFromCloudKit = value }
     }
     var underlyingIsFetchingFromCloudKit: (AnyPublisher<Bool, Never>)!
-    var apiKey: APIKey {
-        get { return underlyingApiKey }
-        set(value) { underlyingApiKey = value }
+    var fetchedAPIKey: AnyPublisher<APIKey, Never> {
+        get { return underlyingFetchedAPIKey }
+        set(value) { underlyingFetchedAPIKey = value }
     }
-    var underlyingApiKey: (APIKey)!
+    var underlyingFetchedAPIKey: (AnyPublisher<APIKey, Never>)!
 
 
     //MARK: - fetchAPIKeyByID
@@ -125,35 +125,27 @@ class LocationProvidingMock: LocationProviding {
     }
 
 }
-class YelpAPIRequestingMock: YelpAPIRequesting {
+class RestaurantListProvingMock: RestaurantListProving {
 
 
-
-
-    //MARK: - updateAPIKey
-
-    var updateAPIKeyCallsCount = 0
-    var updateAPIKeyCalled: Bool {
-        return updateAPIKeyCallsCount > 0
+    var restaurants: PassthroughSubject<[Restaurant], Never> {
+        get { return underlyingRestaurants }
+        set(value) { underlyingRestaurants = value }
     }
-    var updateAPIKeyClosure: (() -> Void)?
+    var underlyingRestaurants: (PassthroughSubject<[Restaurant], Never>)!
 
-    func updateAPIKey() {
-        updateAPIKeyCallsCount += 1
-        updateAPIKeyClosure?()
+
+    //MARK: - updateRestaurants
+
+    var updateRestaurantsCallsCount = 0
+    var updateRestaurantsCalled: Bool {
+        return updateRestaurantsCallsCount > 0
     }
+    var updateRestaurantsClosure: (() async -> Void)?
 
-    //MARK: - getUpdatedRestaurants
-
-    var getUpdatedRestaurantsCallsCount = 0
-    var getUpdatedRestaurantsCalled: Bool {
-        return getUpdatedRestaurantsCallsCount > 0
-    }
-    var getUpdatedRestaurantsClosure: (() async -> Void)?
-
-    func getUpdatedRestaurants() async {
-        getUpdatedRestaurantsCallsCount += 1
-        await getUpdatedRestaurantsClosure?()
+    func updateRestaurants() async {
+        updateRestaurantsCallsCount += 1
+        await updateRestaurantsClosure?()
     }
 
 }

@@ -11,8 +11,8 @@ import CoreLocation
 import Networking
 
 struct ContentView: View {
-  @ObservedObject var splashScreenViewModel: SplashScreenViewModel<YelpRequest>
-  @ObservedObject var restaurantListViewModel: RestaurantListViewModel<YelpRequest>
+  @ObservedObject var splashScreenViewModel: SplashScreenViewModel
+  @ObservedObject var restaurantListViewModel: RestaurantListViewModel
   
   @State private var hasTransitionCompleted: Bool = false
   

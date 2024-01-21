@@ -9,18 +9,18 @@ import Foundation
 import Networking
 import CoreLocation
 
-typealias YelpRequest = YelpAPIRequest<URLRequestBuilder>
-
 class RestaurantsNearMeAssembly {
   private let locationManager = CLLocationManager()
   private var cloudKitService: CloudKitService!
   private var locationProvider: LocationProvider!
 
   @APIKeyProvider private var apiKeyProvider: APIKey
-  var splashScreenViewModel: SplashScreenViewModel<YelpRequest>!
-  var restaurantListViewModel: RestaurantListViewModel<YelpRequest>!
+  var splashScreenViewModel: SplashScreenViewModel!
+  var restaurantListViewModel: RestaurantListViewModel!
   var urlRequestBuilder: URLRequestBuilder!
-  var yelpAPIRequest: YelpRequest!
+  var yelpAPIRequestProvider: YelpRequestProvider!
+  var client = AsyncHTTPClient()
+  var restaurantListProvider: RestaurantListProvider!
   
   init() {
     _apiKeyProvider = .init(.cloudKit)
@@ -28,20 +28,22 @@ class RestaurantsNearMeAssembly {
   
   func assemble() {
     locationProvider = LocationProvider(locationManager: locationManager)
-    urlRequestBuilder = URLRequestBuilder(URL(string: "https://api.yelp.com/v3/businesses/search")!)
     cloudKitService = CloudKitService(apiKey: apiKeyProvider)
-    yelpAPIRequest = YelpRequest(
-      requestBuilder: urlRequestBuilder,
+    yelpAPIRequestProvider = YelpRequestProvider(
       locationProvider: locationProvider,
-      cloudKitServiceProvider: cloudKitService
+      cloudKitServiceProvider: cloudKitService,
+      baseURLPath: "https://api.yelp.com/v3/businesses/search"
+    )
+    restaurantListProvider = RestaurantListProvider(
+      requestProvider: yelpAPIRequestProvider.activeRequest,
+      client: client
     )
     splashScreenViewModel = SplashScreenViewModel(
-      cloudKitService: cloudKitService,
-      apiRequesting: yelpAPIRequest
+      cloudKitService: cloudKitService
     )
     restaurantListViewModel = RestaurantListViewModel(
       locationProvider: locationProvider,
-      yelpRequest: yelpAPIRequest
+      restaurantsListProvider: restaurantListProvider
     )
   }
 }

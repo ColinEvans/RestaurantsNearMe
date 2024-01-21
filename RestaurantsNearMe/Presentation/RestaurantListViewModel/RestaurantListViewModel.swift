@@ -6,22 +6,24 @@
 //
 
 import Foundation
+import Networking
 import UIKit
 
-class RestaurantListViewModel<Y: YelpAPIRequesting>: ObservableObject {
+class RestaurantListViewModel: ObservableObject {
   @Published var locationError: String?
   @Published var showLocationRedirect = false
   @Published var areLocationPermissionsValid = false
+  @Published var restaurants = [Restaurant]()
   
   private let locationProvider: any LocationProviding
-  private let yelpRequest: Y
+  private let restaurantsListProvider: any RestaurantListProving
   
   init(
     locationProvider: some LocationProviding,
-    yelpRequest: Y
+    restaurantsListProvider: some RestaurantListProving
   ) {
     self.locationProvider = locationProvider
-    self.yelpRequest = yelpRequest
+    self.restaurantsListProvider = restaurantsListProvider
     locationProvider.locationErrorPropogator
       .receive(on: DispatchQueue.main)
       .map { String(describing: $0) }
@@ -34,12 +36,17 @@ class RestaurantListViewModel<Y: YelpAPIRequesting>: ObservableObject {
       .receive(on: DispatchQueue.main)
       .map { $0 != nil }
       .assign(to: &$showLocationRedirect)
+    restaurantsListProvider.restaurants
+      .receive(on: DispatchQueue.main)
+      .assign(to: &$restaurants)
   }
   
-  func askLocationPermissions() {
-    locationProvider.askLocationPermissions()
+  func askLocationPermissionsIfNeeded() {
+    if !areLocationPermissionsValid {
+      locationProvider.askLocationPermissions()
+    }
   }
-  
+
   func goToSettings() {
     guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
       return
@@ -49,15 +56,15 @@ class RestaurantListViewModel<Y: YelpAPIRequesting>: ObservableObject {
   }
   
   func retrieveRestaurants() async {
-    await yelpRequest.getUpdatedRestaurants()
+    await restaurantsListProvider.updateRestaurants()
   }
 }
 
 extension RestaurantListViewModel {
-  static func preview() -> RestaurantListViewModel<YelpRequest> {
-    RestaurantListViewModel<YelpAPIRequest>(
+  static func preview() -> RestaurantListViewModel {
+    RestaurantListViewModel(
       locationProvider: LocationProvidingMock(),
-      yelpRequest:  .preview()
+      restaurantsListProvider: RestaurantListProvingMock()
     )
   }
 }

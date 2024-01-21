@@ -10,20 +10,15 @@ import Combine
 import CloudKit
 import Networking
 
-class SplashScreenViewModel<Y: YelpAPIRequesting>: ObservableObject {
+class SplashScreenViewModel: ObservableObject {
   @Published var fetchingError: String?
   @Published var isLoading = false
   
   private var cancellables = Set<AnyCancellable>()
   private let cloudKitService: any CloudKitServiceProviding
-  private let apiRequesting: Y
   
-  init(
-    cloudKitService: some CloudKitServiceProviding,
-    apiRequesting: Y
-  ) {
+  init(cloudKitService: some CloudKitServiceProviding) {
     self.cloudKitService = cloudKitService
-    self.apiRequesting = apiRequesting
     cloudKitService.isFetchingFromCloudKit
       .combineLatest($fetchingError)
       .receive(on: DispatchQueue.main)
@@ -34,7 +29,6 @@ class SplashScreenViewModel<Y: YelpAPIRequesting>: ObservableObject {
   func fetch() async {
     do {
       try await cloudKitService.fetchAPIKeyByID()
-      apiRequesting.updateAPIKey()
     } catch let ckError where ckError is CloudKitServiceError {
       DispatchQueue.main.async {
         self.fetchingError = String(describing: ckError)
@@ -53,15 +47,14 @@ class SplashScreenViewModel<Y: YelpAPIRequesting>: ObservableObject {
 }
 
 extension SplashScreenViewModel {
-  static func preview() -> SplashScreenViewModel<YelpRequest> {
+  static func preview() -> SplashScreenViewModel {
     let mock = CloudKitServiceProvidingMock()
     mock.underlyingAccountStatus
     = CurrentValueSubject<CKAccountStatus, Never>(.available)
     mock.underlyingIsFetchingFromCloudKit = PassthroughSubject<Bool, Never>().eraseToAnyPublisher()
     
-    return SplashScreenViewModel<YelpAPIRequest>(
-      cloudKitService: mock,
-      apiRequesting: .preview()
+    return SplashScreenViewModel(
+      cloudKitService: mock
     )
   }
 }

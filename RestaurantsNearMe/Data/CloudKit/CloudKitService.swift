@@ -16,6 +16,7 @@ final class CloudKitService {
   
   let accountStatus = CurrentValueSubject<CKAccountStatus, Never>(.couldNotDetermine)
   private let _isFetchingFromCloudKit = PassthroughSubject<Bool, Never>()
+  private let _fetchedAPIKey = PassthroughSubject<APIKey, Never>()
   
   init(apiKey: APIKey) {
     self.apiKey = apiKey
@@ -42,6 +43,10 @@ extension CloudKitService: CloudKitServiceProviding {
     _isFetchingFromCloudKit.eraseToAnyPublisher()
   }
   
+  var fetchedAPIKey: AnyPublisher<APIKey, Never> {
+    _fetchedAPIKey.eraseToAnyPublisher()
+  }
+  
   func fetchAPIKeyByID() async throws {
     try await performCloudKitAction {
       let id = CKRecord.ID(recordName: apiKey.keyId.uuidString)
@@ -54,6 +59,7 @@ extension CloudKitService: CloudKitServiceProviding {
         }
 
         apiKey.value = recordValue
+        _fetchedAPIKey.send(apiKey)
       } catch {
         throw CloudKitServiceError.fetchFailed
       }

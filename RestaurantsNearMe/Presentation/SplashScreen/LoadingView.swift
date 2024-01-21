@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LoadingView: View {
-  @ObservedObject var viewModel: SplashScreenViewModel<YelpRequest>
+  @ObservedObject var viewModel: SplashScreenViewModel
 
   var body: some View {
     GeometryReader { proxy in
