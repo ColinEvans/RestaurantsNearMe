@@ -10,7 +10,16 @@ import Networking
 import Combine
 
 struct RestaurantListProvider: RestaurantListProving {
-  let restaurants = PassthroughSubject<[Restaurant], Never>()
+  private let _restaurants = PassthroughSubject<[Restaurant], Never>()
+  private let _errorMessage = PassthroughSubject<String, Never>()
+
+  var restaurants: AnyPublisher<[Restaurant], Never> {
+    _restaurants.eraseToAnyPublisher()
+  }
+  var fetchingError: AnyPublisher<String, Never> {
+    _errorMessage.eraseToAnyPublisher()
+  }
+
   private let requestProvider: CurrentValueSubject<YelpRequest?, Never>
   private let client: AsyncHTTPClient
   
@@ -23,10 +32,13 @@ struct RestaurantListProvider: RestaurantListProving {
     guard let request = requestProvider.value else { return }
     do {
       let updatedList = try await client.response(for: request)
-      restaurants.send(updatedList)
+      print(updatedList)
+      _restaurants.send(updatedList)
+    } catch let error as CustomStringConvertible {
+      _errorMessage.send(error.description)
     } catch {
-      // TODO: - Handle Errors at later time
-      print(error.localizedDescription)
+      // TODO: - For debugging, all messages thrown in implementation should be CustomStringConvertible
+      fatalError("All errors thrown should conform to CustomStringConvertible")
     }
   }
 }

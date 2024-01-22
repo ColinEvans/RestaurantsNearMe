@@ -8,6 +8,7 @@
 import Foundation
 
 /// TODO: - This is a stub that will be fleshed out when actual decoding occurs
-struct Restaurant: Decodable {
+struct Restaurant: Decodable, Identifiable {
+  let id: String
   let name: String
 }

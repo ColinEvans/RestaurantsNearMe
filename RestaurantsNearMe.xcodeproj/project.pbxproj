@@ -26,6 +26,9 @@
 		39B91F862B5C67A100C5FAE5 /* StaticString_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B91F852B5C67A100C5FAE5 /* StaticString_Extensions.swift */; };
 		39B91F882B5CC07C00C5FAE5 /* RestaurantListProving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B91F872B5CC07C00C5FAE5 /* RestaurantListProving.swift */; };
 		39B91F8A2B5CC10C00C5FAE5 /* RestaurantListProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B91F892B5CC10C00C5FAE5 /* RestaurantListProvider.swift */; };
+		39B91F8C2B5ECAD800C5FAE5 /* YelpRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B91F8B2B5ECAD800C5FAE5 /* YelpRequestError.swift */; };
+		39B91F8E2B5ED0D400C5FAE5 /* YelpResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B91F8D2B5ED0D400C5FAE5 /* YelpResult.swift */; };
+		39B91F902B5EDDD700C5FAE5 /* HTTPClientError_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B91F8F2B5EDDD700C5FAE5 /* HTTPClientError_Extensions.swift */; };
 		39C3F6942B4F375900D388DA /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C3F6932B4F375900D388DA /* Restaurant.swift */; };
 		39EA1C012B40DAAF00F3B0DC /* LocationProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EA1C002B40DAAF00F3B0DC /* LocationProviding.swift */; };
 		39EA1C032B40DB4900F3B0DC /* LocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EA1C022B40DB4900F3B0DC /* LocationProvider.swift */; };
@@ -62,6 +65,9 @@
 		39B91F852B5C67A100C5FAE5 /* StaticString_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticString_Extensions.swift; sourceTree = "<group>"; };
 		39B91F872B5CC07C00C5FAE5 /* RestaurantListProving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantListProving.swift; sourceTree = "<group>"; };
 		39B91F892B5CC10C00C5FAE5 /* RestaurantListProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantListProvider.swift; sourceTree = "<group>"; };
+		39B91F8B2B5ECAD800C5FAE5 /* YelpRequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YelpRequestError.swift; sourceTree = "<group>"; };
+		39B91F8D2B5ED0D400C5FAE5 /* YelpResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YelpResult.swift; sourceTree = "<group>"; };
+		39B91F8F2B5EDDD700C5FAE5 /* HTTPClientError_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientError_Extensions.swift; sourceTree = "<group>"; };
 		39C3F6932B4F375900D388DA /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		39EA1C002B40DAAF00F3B0DC /* LocationProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProviding.swift; sourceTree = "<group>"; };
 		39EA1C022B40DB4900F3B0DC /* LocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProvider.swift; sourceTree = "<group>"; };
@@ -194,6 +200,8 @@
 				39B91F892B5CC10C00C5FAE5 /* RestaurantListProvider.swift */,
 				39EA1C192B43B6D700F3B0DC /* YelpRequest.swift */,
 				3907872D2B4F3CAA0075AA24 /* YelpRequestProvider.swift */,
+				39B91F8B2B5ECAD800C5FAE5 /* YelpRequestError.swift */,
+				39B91F8D2B5ED0D400C5FAE5 /* YelpResult.swift */,
 			);
 			path = YelpRequest;
 			sourceTree = "<group>";
@@ -215,6 +223,7 @@
 				39EA1C0B2B42004800F3B0DC /* Color_Extensions.swift */,
 				39EA1C0F2B42039D00F3B0DC /* DeferredLoadingFullAnimationModifier.swift */,
 				39B91F852B5C67A100C5FAE5 /* StaticString_Extensions.swift */,
+				39B91F8F2B5EDDD700C5FAE5 /* HTTPClientError_Extensions.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -346,6 +355,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39B91F902B5EDDD700C5FAE5 /* HTTPClientError_Extensions.swift in Sources */,
 				39B91F862B5C67A100C5FAE5 /* StaticString_Extensions.swift in Sources */,
 				39C3F6942B4F375900D388DA /* Restaurant.swift in Sources */,
 				39B91F842B5C65BA00C5FAE5 /* URL_Extensions.swift in Sources */,
@@ -363,6 +373,7 @@
 				394D6E812B2961DB0041B56E /* CloudKitServiceActor.swift in Sources */,
 				39477BEA2B14FF4600D9895B /* APIKey.swift in Sources */,
 				39B91F8A2B5CC10C00C5FAE5 /* RestaurantListProvider.swift in Sources */,
+				39B91F8E2B5ED0D400C5FAE5 /* YelpResult.swift in Sources */,
 				39EA1C012B40DAAF00F3B0DC /* LocationProviding.swift in Sources */,
 				39477BD42B1191A200D9895B /* SplashScreenViewModel.swift in Sources */,
 				39477BEC2B150EC000D9895B /* CloudKitService.swift in Sources */,
@@ -372,6 +383,7 @@
 				39477BD02B114A4500D9895B /* LoadingView.swift in Sources */,
 				39477BF02B1542F000D9895B /* CloudKitServiceError.swift in Sources */,
 				39477BDD2B12A1E300D9895B /* Toast.swift in Sources */,
+				39B91F8C2B5ECAD800C5FAE5 /* YelpRequestError.swift in Sources */,
 				39EA1C032B40DB4900F3B0DC /* LocationProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
