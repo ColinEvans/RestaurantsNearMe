@@ -5,17 +5,14 @@
 //  Created by Colin Evans on 2023-11-24.
 //
 
-// TODO: Figure out where to refresh account status then from there we can call fetch
-
-
 import Foundation
 import Combine
 import CloudKit
+import Networking
 
 class SplashScreenViewModel: ObservableObject {
-  private var isFetching = PassthroughSubject<Bool, Never>()
   @Published var fetchingError: String?
-  @Published var showLoadingView = true
+  @Published var isLoading = false
   
   private var cancellables = Set<AnyCancellable>()
   private let cloudKitService: any CloudKitServiceProviding
@@ -23,15 +20,10 @@ class SplashScreenViewModel: ObservableObject {
   init(cloudKitService: some CloudKitServiceProviding) {
     self.cloudKitService = cloudKitService
     cloudKitService.isFetchingFromCloudKit
-      .receive(on: DispatchQueue.main)
-      .sink { self.isFetching.send($0) }
-      .store(in: &cancellables)
-
-    isFetching
       .combineLatest($fetchingError)
       .receive(on: DispatchQueue.main)
       .map { $0 || $1 != nil }
-      .assign(to: &$showLoadingView)
+      .assign(to: &$isLoading)
   }
 
   func fetch() async {
@@ -57,9 +49,12 @@ class SplashScreenViewModel: ObservableObject {
 extension SplashScreenViewModel {
   static func preview() -> SplashScreenViewModel {
     let mock = CloudKitServiceProvidingMock()
-    mock.underlyingAccountStatus = CurrentValueSubject<CKAccountStatus, Never>(.available)
+    mock.underlyingAccountStatus
+    = CurrentValueSubject<CKAccountStatus, Never>(.available)
     mock.underlyingIsFetchingFromCloudKit = PassthroughSubject<Bool, Never>().eraseToAnyPublisher()
     
-    return SplashScreenViewModel(cloudKitService: mock)
+    return SplashScreenViewModel(
+      cloudKitService: mock
+    )
   }
 }

@@ -7,30 +7,41 @@
 
 import SwiftUI
 import Combine
+import CoreLocation
+import Networking
 
 struct ContentView: View {
   @ObservedObject var splashScreenViewModel: SplashScreenViewModel
+  @ObservedObject var restaurantListViewModel: RestaurantListViewModel
+  
+  @State private var hasTransitionCompleted: Bool = false
+  
+  private var shouldTransition: Bool {
+    !splashScreenViewModel.isLoading
+      && hasTransitionCompleted
+  }
 
   var body: some View {
     Group {
-      if splashScreenViewModel.showLoadingView {
-        LoadingView(
-          errorToPresent: splashScreenViewModel.fetchingError,
-          viewModel: splashScreenViewModel
-        )
+      if shouldTransition {
+        RestaurantListView(viewModel: restaurantListViewModel)
       } else {
-        Text("Loading Complete")
+        LoadingView(viewModel: splashScreenViewModel)
+          .deferredLoading(
+            isLoading: splashScreenViewModel.isLoading,
+            hasCompleted: $hasTransitionCompleted
+          )
       }
-    }.task {
-      await splashScreenViewModel.fetch()
     }
+    .background(Color.background)
   }
 }
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     ContentView(
-      splashScreenViewModel: SplashScreenViewModel.preview()
+      splashScreenViewModel: .preview(),
+      restaurantListViewModel: .preview()
     )
   }
 }

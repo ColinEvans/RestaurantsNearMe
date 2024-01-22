@@ -1,12 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "networking",
+      "identity" : "mocker",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ColinEvans/Networking",
+      "location" : "https://github.com/WeTransfer/Mocker.git",
       "state" : {
-        "branch" : "develop",
-        "revision" : "4c65940b656b8bb9f0e74181fb9dc7900a521dda"
+        "branch" : "master",
+        "revision" : "edf95a445f67ae63027e32ee3580ce5efa7a962d"
       }
     }
   ],
