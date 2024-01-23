@@ -17,11 +17,11 @@ class RestaurantListViewModel: ObservableObject {
   @Published var requestError: String?
   
   private let locationProvider: any LocationProviding
-  private let restaurantsListProvider: any RestaurantListProving
+  private let restaurantsListProvider: any RestaurantListProviding
   
   init(
     locationProvider: some LocationProviding,
-    restaurantsListProvider: some RestaurantListProving
+    restaurantsListProvider: some RestaurantListProviding
   ) {
     self.locationProvider = locationProvider
     self.restaurantsListProvider = restaurantsListProvider
@@ -70,7 +70,7 @@ extension RestaurantListViewModel {
   static func preview() -> RestaurantListViewModel {
     RestaurantListViewModel(
       locationProvider: LocationProvidingMock(),
-      restaurantsListProvider: RestaurantListProvingMock()
+      restaurantsListProvider: RestaurantListProvidingMock()
     )
   }
 }

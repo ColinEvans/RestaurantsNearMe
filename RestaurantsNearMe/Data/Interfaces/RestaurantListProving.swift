@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 // sourcery: AutoMockable
-protocol RestaurantListProving {
+protocol RestaurantListProviding {
   var restaurants: AnyPublisher<[Restaurant], Never> { get }
   var fetchingError: AnyPublisher<String, Never> { get }
 

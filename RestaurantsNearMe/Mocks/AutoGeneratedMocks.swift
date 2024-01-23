@@ -125,7 +125,7 @@ class LocationProvidingMock: LocationProviding {
     }
 
 }
-class RestaurantListProvingMock: RestaurantListProving {
+class RestaurantListProvidingMock: RestaurantListProviding {
 
 
     var restaurants: AnyPublisher<[Restaurant], Never> {

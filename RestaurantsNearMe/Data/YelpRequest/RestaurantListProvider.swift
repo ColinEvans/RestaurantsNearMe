@@ -9,7 +9,7 @@ import Foundation
 import Networking
 import Combine
 
-struct RestaurantListProvider: RestaurantListProving {
+struct RestaurantListProvider: RestaurantListProviding {
   private let _restaurants = PassthroughSubject<[Restaurant], Never>()
   private let _errorMessage = PassthroughSubject<String, Never>()
 
