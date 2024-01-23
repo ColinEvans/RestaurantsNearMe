@@ -21,24 +21,20 @@ struct YelpResult: Decodable {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     businesses = try container.decode([Restaurant].self, forKey: .businesses)
     total = (try? container.decodeIfPresent(Int.self, forKey: .total)) ?? 0
-    let location = try container.decode(Location.self, forKey: .region)
-    region = CLLocation(latitude: location.latitude, longitude: location.longitude)
-  }
-}
-
-private struct Location: Decodable {
-  let longitude: Double
-  let latitude: Double
-  
-  enum CodingKeys: CodingKey {
-    case center
+    let value = try container.decode(Region.self, forKey: .region)
+    region = CLLocation(
+      latitude: value.center.latitude,
+      longitude: value.center.longitude
+    )
   }
   
-  init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    let values = try container.decodeIfPresent(Location.self, forKey: .center)
+  // MARK: - Private Struct for Decoding
+  private struct Region: Decodable {
+    let center: Location
     
-    latitude = values?.latitude ?? 0
-    longitude = values?.longitude ?? 0
+    struct Location: Decodable {
+      let longitude: Double
+      let latitude: Double
+    }
   }
 }
