@@ -9,12 +9,18 @@ import Foundation
 import Networking
 import UIKit
 
+// TODO: - For Example Purposes only
+import RxSwift
+import RxRelay
+
 class RestaurantListViewModel: ObservableObject {
   @Published var locationError: String?
   @Published var showLocationRedirect = false
   @Published var areLocationPermissionsValid = false
   @Published var restaurants = [Restaurant]()
   @Published var requestError: String?
+  
+  let restaurantsList = BehaviorRelay<[Restaurant]>(value: [])
   
   private let locationProvider: any LocationProviding
   private let restaurantsListProvider: any RestaurantListProviding
@@ -63,6 +69,11 @@ class RestaurantListViewModel: ObservableObject {
   
   func retrieveRestaurants() async {
     await restaurantsListProvider.updateRestaurants()
+  }
+  
+  // MARK: - UIKit Implementation
+  func formatRating(for data: Double) -> String {
+    String(data)
   }
 }
 

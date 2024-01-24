@@ -21,6 +21,7 @@ class RestaurantsNearMeAssembly {
   var yelpAPIRequestProvider: YelpRequestProvider!
   var client = AsyncHTTPClient()
   var restaurantListProvider: RestaurantListProvider!
+  var viewController: RestaurantTableViewController!
   
   init() {
     _apiKeyProvider = .init(.cloudKit)
@@ -45,5 +46,6 @@ class RestaurantsNearMeAssembly {
       locationProvider: locationProvider,
       restaurantsListProvider: restaurantListProvider
     )
+    viewController = RestaurantTableViewController(viewModel: restaurantListViewModel)
   }
 }

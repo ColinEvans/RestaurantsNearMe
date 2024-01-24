@@ -11,4 +11,6 @@ import Foundation
 struct Restaurant: Decodable, Identifiable {
   let id: String
   let name: String
+  let rating: Double
+  let image_url: String
 }

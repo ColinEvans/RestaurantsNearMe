@@ -19,7 +19,8 @@ struct RestaurantsNearMeApp: App {
     WindowGroup {
       ContentView(
         splashScreenViewModel: assembly.splashScreenViewModel,
-        restaurantListViewModel: assembly.restaurantListViewModel
+        restaurantListViewModel: assembly.restaurantListViewModel,
+        viewController: assembly.viewController
       )
     }
   }

@@ -13,6 +13,7 @@ import Networking
 struct ContentView: View {
   @ObservedObject var splashScreenViewModel: SplashScreenViewModel
   @ObservedObject var restaurantListViewModel: RestaurantListViewModel
+  let viewController: RestaurantTableViewController
   
   @State private var hasTransitionCompleted: Bool = false
   
@@ -24,7 +25,8 @@ struct ContentView: View {
   var body: some View {
     Group {
       if shouldTransition {
-        RestaurantListView(viewModel: restaurantListViewModel)
+        RestaurantListViewRepresentable(viewController: viewController)
+        //RestaurantListView(viewModel: restaurantListViewModel)
       } else {
         LoadingView(viewModel: splashScreenViewModel)
           .deferredLoading(
@@ -41,7 +43,8 @@ struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     ContentView(
       splashScreenViewModel: .preview(),
-      restaurantListViewModel: .preview()
+      restaurantListViewModel: .preview(),
+      viewController: RestaurantTableViewController(viewModel: .preview())
     )
   }
 }

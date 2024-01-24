@@ -29,6 +29,13 @@
 		39B91F8C2B5ECAD800C5FAE5 /* YelpRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B91F8B2B5ECAD800C5FAE5 /* YelpRequestError.swift */; };
 		39B91F8E2B5ED0D400C5FAE5 /* YelpResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B91F8D2B5ED0D400C5FAE5 /* YelpResult.swift */; };
 		39B91F902B5EDDD700C5FAE5 /* HTTPClientError_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B91F8F2B5EDDD700C5FAE5 /* HTTPClientError_Extensions.swift */; };
+		39B91F932B608DE600C5FAE5 /* RestaurantTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B91F922B608DE600C5FAE5 /* RestaurantTableViewController.swift */; };
+		39B91F962B608FA700C5FAE5 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 39B91F952B608FA700C5FAE5 /* RxCocoa */; };
+		39B91F982B608FA700C5FAE5 /* RxCocoa-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 39B91F972B608FA700C5FAE5 /* RxCocoa-Dynamic */; };
+		39B91F9A2B608FA700C5FAE5 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 39B91F992B608FA700C5FAE5 /* RxRelay */; };
+		39B91F9C2B6090DF00C5FAE5 /* RestaurantsListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B91F9B2B6090DF00C5FAE5 /* RestaurantsListTableView.swift */; };
+		39B91F9E2B60920500C5FAE5 /* RestaurantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B91F9D2B60920500C5FAE5 /* RestaurantTableViewCell.swift */; };
+		39B91FA02B60A10200C5FAE5 /* RestaurantListViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B91F9F2B60A10200C5FAE5 /* RestaurantListViewRepresentable.swift */; };
 		39C3F6942B4F375900D388DA /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C3F6932B4F375900D388DA /* Restaurant.swift */; };
 		39EA1C012B40DAAF00F3B0DC /* LocationProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EA1C002B40DAAF00F3B0DC /* LocationProviding.swift */; };
 		39EA1C032B40DB4900F3B0DC /* LocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EA1C022B40DB4900F3B0DC /* LocationProvider.swift */; };
@@ -68,6 +75,10 @@
 		39B91F8B2B5ECAD800C5FAE5 /* YelpRequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YelpRequestError.swift; sourceTree = "<group>"; };
 		39B91F8D2B5ED0D400C5FAE5 /* YelpResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YelpResult.swift; sourceTree = "<group>"; };
 		39B91F8F2B5EDDD700C5FAE5 /* HTTPClientError_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientError_Extensions.swift; sourceTree = "<group>"; };
+		39B91F922B608DE600C5FAE5 /* RestaurantTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantTableViewController.swift; sourceTree = "<group>"; };
+		39B91F9B2B6090DF00C5FAE5 /* RestaurantsListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantsListTableView.swift; sourceTree = "<group>"; };
+		39B91F9D2B60920500C5FAE5 /* RestaurantTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantTableViewCell.swift; sourceTree = "<group>"; };
+		39B91F9F2B60A10200C5FAE5 /* RestaurantListViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantListViewRepresentable.swift; sourceTree = "<group>"; };
 		39C3F6932B4F375900D388DA /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		39EA1C002B40DAAF00F3B0DC /* LocationProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProviding.swift; sourceTree = "<group>"; };
 		39EA1C022B40DB4900F3B0DC /* LocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProvider.swift; sourceTree = "<group>"; };
@@ -86,6 +97,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39B91F9A2B608FA700C5FAE5 /* RxRelay in Frameworks */,
+				39B91F982B608FA700C5FAE5 /* RxCocoa-Dynamic in Frameworks */,
+				39B91F962B608FA700C5FAE5 /* RxCocoa in Frameworks */,
 				39EA1C362B4F2CBF00F3B0DC /* Networking in Frameworks */,
 				39EA1C332B4F2CAF00F3B0DC /* Networking in Frameworks */,
 			);
@@ -145,6 +159,7 @@
 		39477BDA2B11B40800D9895B /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				39B91F912B608D8600C5FAE5 /* TableViewExample */,
 				39EA1C142B426C8700F3B0DC /* RestaurantListViewModel */,
 				39EA1C132B426C1800F3B0DC /* SplashScreen */,
 				39EA1C0A2B42002500F3B0DC /* Utilities */,
@@ -181,6 +196,17 @@
 				39B91F832B5C65BA00C5FAE5 /* URL_Extensions.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		39B91F912B608D8600C5FAE5 /* TableViewExample */ = {
+			isa = PBXGroup;
+			children = (
+				39B91F922B608DE600C5FAE5 /* RestaurantTableViewController.swift */,
+				39B91F9B2B6090DF00C5FAE5 /* RestaurantsListTableView.swift */,
+				39B91F9D2B60920500C5FAE5 /* RestaurantTableViewCell.swift */,
+				39B91F9F2B60A10200C5FAE5 /* RestaurantListViewRepresentable.swift */,
+			);
+			path = TableViewExample;
 			sourceTree = "<group>";
 		};
 		39C3F6952B4F376300D388DA /* CloudKit */ = {
@@ -275,6 +301,9 @@
 			packageProductDependencies = (
 				39EA1C322B4F2CAF00F3B0DC /* Networking */,
 				39EA1C352B4F2CBF00F3B0DC /* Networking */,
+				39B91F952B608FA700C5FAE5 /* RxCocoa */,
+				39B91F972B608FA700C5FAE5 /* RxCocoa-Dynamic */,
+				39B91F992B608FA700C5FAE5 /* RxRelay */,
 			);
 			productName = RestaurantsNearMe;
 			productReference = 390158972A984424001BF219 /* RestaurantsNearMe.app */;
@@ -306,6 +335,7 @@
 			mainGroup = 3901588E2A984424001BF219;
 			packageReferences = (
 				39EA1C342B4F2CBF00F3B0DC /* XCRemoteSwiftPackageReference "Networking" */,
+				39B91F942B608FA700C5FAE5 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 390158982A984424001BF219 /* Products */;
 			projectDirPath = "";
@@ -359,6 +389,7 @@
 				39B91F862B5C67A100C5FAE5 /* StaticString_Extensions.swift in Sources */,
 				39C3F6942B4F375900D388DA /* Restaurant.swift in Sources */,
 				39B91F842B5C65BA00C5FAE5 /* URL_Extensions.swift in Sources */,
+				39B91FA02B60A10200C5FAE5 /* RestaurantListViewRepresentable.swift in Sources */,
 				394D6E842B2A4C7F0041B56E /* AutoGeneratedMocks.swift in Sources */,
 				39EA1C072B40E5A500F3B0DC /* LocationError.swift in Sources */,
 				39EA1C102B42039D00F3B0DC /* DeferredLoadingFullAnimationModifier.swift in Sources */,
@@ -370,14 +401,17 @@
 				39B91F882B5CC07C00C5FAE5 /* RestaurantListProving.swift in Sources */,
 				39EA1C052B40DC3000F3B0DC /* RestaurantsNearMeAssembly.swift in Sources */,
 				39EA1C1A2B43B6D700F3B0DC /* YelpRequest.swift in Sources */,
+				39B91F932B608DE600C5FAE5 /* RestaurantTableViewController.swift in Sources */,
 				394D6E812B2961DB0041B56E /* CloudKitServiceActor.swift in Sources */,
 				39477BEA2B14FF4600D9895B /* APIKey.swift in Sources */,
 				39B91F8A2B5CC10C00C5FAE5 /* RestaurantListProvider.swift in Sources */,
 				39B91F8E2B5ED0D400C5FAE5 /* YelpResult.swift in Sources */,
+				39B91F9C2B6090DF00C5FAE5 /* RestaurantsListTableView.swift in Sources */,
 				39EA1C012B40DAAF00F3B0DC /* LocationProviding.swift in Sources */,
 				39477BD42B1191A200D9895B /* SplashScreenViewModel.swift in Sources */,
 				39477BEC2B150EC000D9895B /* CloudKitService.swift in Sources */,
 				39AE27842AFD5E9000BAAF6A /* APIKeyProvider.swift in Sources */,
+				39B91F9E2B60920500C5FAE5 /* RestaurantTableViewCell.swift in Sources */,
 				39EA1C0C2B42004800F3B0DC /* Color_Extensions.swift in Sources */,
 				39477BEE2B153E9200D9895B /* CloudKitServiceProviding.swift in Sources */,
 				39477BD02B114A4500D9895B /* LoadingView.swift in Sources */,
@@ -593,6 +627,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		39B91F942B608FA700C5FAE5 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.6.0;
+			};
+		};
 		39EA1C342B4F2CBF00F3B0DC /* XCRemoteSwiftPackageReference "Networking" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ColinEvans/Networking";
@@ -604,6 +646,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		39B91F952B608FA700C5FAE5 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39B91F942B608FA700C5FAE5 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		39B91F972B608FA700C5FAE5 /* RxCocoa-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39B91F942B608FA700C5FAE5 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = "RxCocoa-Dynamic";
+		};
+		39B91F992B608FA700C5FAE5 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39B91F942B608FA700C5FAE5 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
 		39EA1C322B4F2CAF00F3B0DC /* Networking */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Networking;
