@@ -64,13 +64,23 @@ class RestaurantListViewModel: ObservableObject {
   func retrieveRestaurants() async {
     await restaurantsListProvider.updateRestaurants()
   }
+  
+  func getNextRestaurants() async {
+    // update the query
+  }
+  
+  func shouldLoadData(_ id: String) -> Bool {
+    return restaurants.firstIndex(where: { $0.id == id }) == restaurants.count - 2
+  }
 }
 
 extension RestaurantListViewModel {
   static func preview() -> RestaurantListViewModel {
-    RestaurantListViewModel(
+    let viewModel = RestaurantListViewModel(
       locationProvider: LocationProvidingMock(),
       restaurantsListProvider: RestaurantListProvidingMock()
     )
+    viewModel.restaurants = Array<Restaurant>(repeating: .preview(), count: 10)
+    return viewModel
   }
 }

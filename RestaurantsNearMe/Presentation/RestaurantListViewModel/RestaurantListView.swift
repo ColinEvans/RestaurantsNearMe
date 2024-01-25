@@ -9,12 +9,26 @@ import SwiftUI
 
 struct RestaurantListView: View {
   @ObservedObject var viewModel: RestaurantListViewModel
+  @State private var scrollOffset = 0
   
   var body: some View {
-    ScrollView(.vertical) {
-      Text("Loading Complete")
-        .transition(AnyTransition.opacity.animation(.easeIn(duration: 0.5)))
-        .foregroundStyle(Color.white)
+    NavigationStack {
+      List(viewModel.restaurants) { rest in
+        NavigationLink {
+          Text("More detail for \(rest.name)")
+        } label: {
+          RestaurantListRow(restaurant: rest)
+            .frame(height: 80)
+            .onAppear {
+              if viewModel.shouldLoadData(rest.id) {
+                scrollOffset += 20
+                print(scrollOffset)
+              }
+            }
+        }
+      }.refreshable {
+        // recall API
+      }
     }
     .onAppear {
       viewModel.askLocationPermissionsIfNeeded()
@@ -26,6 +40,9 @@ struct RestaurantListView: View {
       if viewModel.areLocationPermissionsValid {
         await viewModel.retrieveRestaurants()
       }
+    }
+    .onChange(of: scrollOffset) {
+      
     }
   }
 
