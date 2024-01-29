@@ -9,8 +9,9 @@ import Foundation
 import Combine
 
 // sourcery: AutoMockable
-protocol RestaurantListProving {
-  var restaurants: PassthroughSubject<[Restaurant], Never> { get }
-  
+protocol RestaurantListProviding {
+  var restaurants: AnyPublisher<[Restaurant], Never> { get }
+  var fetchingError: AnyPublisher<String, Never> { get }
+
   func updateRestaurants() async
 }

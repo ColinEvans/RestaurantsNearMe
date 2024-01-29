@@ -14,13 +14,14 @@ class RestaurantListViewModel: ObservableObject {
   @Published var showLocationRedirect = false
   @Published var areLocationPermissionsValid = false
   @Published var restaurants = [Restaurant]()
+  @Published var requestError: String?
   
   private let locationProvider: any LocationProviding
-  private let restaurantsListProvider: any RestaurantListProving
+  private let restaurantsListProvider: any RestaurantListProviding
   
   init(
     locationProvider: some LocationProviding,
-    restaurantsListProvider: some RestaurantListProving
+    restaurantsListProvider: some RestaurantListProviding
   ) {
     self.locationProvider = locationProvider
     self.restaurantsListProvider = restaurantsListProvider
@@ -36,9 +37,14 @@ class RestaurantListViewModel: ObservableObject {
       .receive(on: DispatchQueue.main)
       .map { $0 != nil }
       .assign(to: &$showLocationRedirect)
+
     restaurantsListProvider.restaurants
       .receive(on: DispatchQueue.main)
       .assign(to: &$restaurants)
+    restaurantsListProvider.fetchingError
+      .compactMap({ $0 })
+      .receive(on: DispatchQueue.main)
+      .assign(to: &$requestError)
   }
   
   func askLocationPermissionsIfNeeded() {
@@ -64,7 +70,7 @@ extension RestaurantListViewModel {
   static func preview() -> RestaurantListViewModel {
     RestaurantListViewModel(
       locationProvider: LocationProvidingMock(),
-      restaurantsListProvider: RestaurantListProvingMock()
+      restaurantsListProvider: RestaurantListProvidingMock()
     )
   }
 }

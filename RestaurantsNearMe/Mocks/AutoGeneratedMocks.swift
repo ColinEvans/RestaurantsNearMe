@@ -125,14 +125,19 @@ class LocationProvidingMock: LocationProviding {
     }
 
 }
-class RestaurantListProvingMock: RestaurantListProving {
+class RestaurantListProvidingMock: RestaurantListProviding {
 
 
-    var restaurants: PassthroughSubject<[Restaurant], Never> {
+    var restaurants: AnyPublisher<[Restaurant], Never> {
         get { return underlyingRestaurants }
         set(value) { underlyingRestaurants = value }
     }
-    var underlyingRestaurants: (PassthroughSubject<[Restaurant], Never>)!
+    var underlyingRestaurants: (AnyPublisher<[Restaurant], Never>)!
+    var fetchingError: AnyPublisher<String, Never> {
+        get { return underlyingFetchingError }
+        set(value) { underlyingFetchingError = value }
+    }
+    var underlyingFetchingError: (AnyPublisher<String, Never>)!
 
 
     //MARK: - updateRestaurants

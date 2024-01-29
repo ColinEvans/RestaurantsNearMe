@@ -27,7 +27,17 @@ class YelpRequestProvider {
         let request = YelpRequest(
           path: baseURLPath,
           headers: authHeader,
-          parameters: locationParameters
+          parameters: locationParameters,
+          resource: Resource<[Restaurant]>(
+            parse: {
+              do {
+                let decodedData = try JSONDecoder().decode(YelpResult.self, from: $0)
+                return decodedData.businesses
+              } catch {
+                throw YelpRequestError.unableToParseRestaurants
+              }
+            }
+          )
         )
         self.activeRequest.send(request)
       }.store(in: &cancellables)
