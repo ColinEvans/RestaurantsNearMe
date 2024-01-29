@@ -68,9 +68,11 @@ class RestaurantListViewModel: ObservableObject {
 
 extension RestaurantListViewModel {
   static func preview() -> RestaurantListViewModel {
-    RestaurantListViewModel(
+    let viewModel = RestaurantListViewModel(
       locationProvider: LocationProvidingMock(),
       restaurantsListProvider: RestaurantListProvidingMock()
     )
+    viewModel.restaurants = Array<Restaurant>(repeating: .preview(), count: 10)
+    return viewModel
   }
 }

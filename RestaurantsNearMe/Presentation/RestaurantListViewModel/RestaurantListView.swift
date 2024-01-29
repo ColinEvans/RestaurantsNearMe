@@ -11,10 +11,15 @@ struct RestaurantListView: View {
   @ObservedObject var viewModel: RestaurantListViewModel
   
   var body: some View {
-    ScrollView(.vertical) {
-      Text("Loading Complete")
-        .transition(AnyTransition.opacity.animation(.easeIn(duration: 0.5)))
-        .foregroundStyle(Color.white)
+    NavigationStack {
+      List(viewModel.restaurants) { rest in
+        NavigationLink {
+          Text("More detail for \(rest.name)")
+        } label: {
+          RestaurantListRow(restaurant: rest)
+            .frame(height: 80)
+        }
+      }
     }
     .onAppear {
       viewModel.askLocationPermissionsIfNeeded()
