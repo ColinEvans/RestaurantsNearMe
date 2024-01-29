@@ -9,7 +9,6 @@ import SwiftUI
 
 struct RestaurantListView: View {
   @ObservedObject var viewModel: RestaurantListViewModel
-  @State private var scrollOffset = 0
   
   var body: some View {
     NavigationStack {
@@ -19,15 +18,7 @@ struct RestaurantListView: View {
         } label: {
           RestaurantListRow(restaurant: rest)
             .frame(height: 80)
-            .onAppear {
-              if viewModel.shouldLoadData(rest.id) {
-                scrollOffset += 20
-                print(scrollOffset)
-              }
-            }
         }
-      }.refreshable {
-        // recall API
       }
     }
     .onAppear {
@@ -40,9 +31,6 @@ struct RestaurantListView: View {
       if viewModel.areLocationPermissionsValid {
         await viewModel.retrieveRestaurants()
       }
-    }
-    .onChange(of: scrollOffset) {
-      
     }
   }
 

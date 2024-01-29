@@ -26,7 +26,10 @@ struct RestaurantListRow: View {
             Image("placeholder_image").iconImage()
           }
         }
-        .frame(width: 75, height: 75)
+        .frame(
+          width: proxy.size.height * UIConstants.imageHeightRatio,
+          height: proxy.size.height * UIConstants.imageHeightRatio
+        )
 
         VStack(alignment: .leading){
           Text(restaurant.name)
@@ -41,6 +44,7 @@ struct RestaurantListRow: View {
   
   private struct UIConstants {
     static let widthRatio: CGFloat = 0.05
+    static let imageHeightRatio: CGFloat = 75/80
   }
 }
 
