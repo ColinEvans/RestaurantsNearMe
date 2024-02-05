@@ -125,6 +125,17 @@ class LocationProvidingMock: LocationProviding {
     }
 
 }
+class OffsetProvidingMock: OffsetProviding {
+
+
+    var currentPageOffset: CurrentValueSubject<Int, Never> {
+        get { return underlyingCurrentPageOffset }
+        set(value) { underlyingCurrentPageOffset = value }
+    }
+    var underlyingCurrentPageOffset: (CurrentValueSubject<Int, Never>)!
+
+
+}
 class RestaurantListProvidingMock: RestaurantListProviding {
 
 
@@ -138,19 +149,28 @@ class RestaurantListProvidingMock: RestaurantListProviding {
         set(value) { underlyingFetchingError = value }
     }
     var underlyingFetchingError: (AnyPublisher<String, Never>)!
+    var isLoading: AnyPublisher<Bool, Never> {
+        get { return underlyingIsLoading }
+        set(value) { underlyingIsLoading = value }
+    }
+    var underlyingIsLoading: (AnyPublisher<Bool, Never>)!
 
 
     //MARK: - updateRestaurants
 
-    var updateRestaurantsCallsCount = 0
-    var updateRestaurantsCalled: Bool {
-        return updateRestaurantsCallsCount > 0
+    var updateRestaurantsForCallsCount = 0
+    var updateRestaurantsForCalled: Bool {
+        return updateRestaurantsForCallsCount > 0
     }
-    var updateRestaurantsClosure: (() async -> Void)?
+    var updateRestaurantsForReceivedRequest: (YelpRequest)?
+    var updateRestaurantsForReceivedInvocations: [(YelpRequest)] = []
+    var updateRestaurantsForClosure: ((YelpRequest) async -> Void)?
 
-    func updateRestaurants() async {
-        updateRestaurantsCallsCount += 1
-        await updateRestaurantsClosure?()
+    func updateRestaurants(for request: YelpRequest) async {
+        updateRestaurantsForCallsCount += 1
+        updateRestaurantsForReceivedRequest = request
+        updateRestaurantsForReceivedInvocations.append(request)
+        await updateRestaurantsForClosure?(request)
     }
 
 }

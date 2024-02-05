@@ -21,6 +21,7 @@ class RestaurantsNearMeAssembly {
   var yelpAPIRequestProvider: YelpRequestProvider!
   var client = AsyncHTTPClient()
   var restaurantListProvider: RestaurantListProvider!
+  var offsetProvider: OffsetProvider!
   
   init() {
     _apiKeyProvider = .init(.cloudKit)
@@ -29,13 +30,15 @@ class RestaurantsNearMeAssembly {
   func assemble() {
     locationProvider = LocationProvider(locationManager: locationManager)
     cloudKitService = CloudKitService(apiKey: apiKeyProvider)
+    offsetProvider = OffsetProvider()
     yelpAPIRequestProvider = YelpRequestProvider(
       locationProvider: locationProvider,
       cloudKitServiceProvider: cloudKitService,
-      baseURLPath: "https://api.yelp.com/v3/businesses/search"
+      offsetProvider: offsetProvider,
+      baseURLPath: URLs.baseSearch
     )
     restaurantListProvider = RestaurantListProvider(
-      requestProvider: yelpAPIRequestProvider.activeRequest,
+      requestProvider: yelpAPIRequestProvider.activeRequest.eraseToAnyPublisher(),
       client: client
     )
     splashScreenViewModel = SplashScreenViewModel(
@@ -43,7 +46,8 @@ class RestaurantsNearMeAssembly {
     )
     restaurantListViewModel = RestaurantListViewModel(
       locationProvider: locationProvider,
-      restaurantsListProvider: restaurantListProvider
+      restaurantsListProvider: restaurantListProvider,
+      offsetProvider: offsetProvider
     )
   }
 }

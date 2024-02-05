@@ -13,21 +13,24 @@ import Networking
 class YelpRequestProvider {
   let activeRequest = CurrentValueSubject<YelpRequest?, Never>(nil)
   private var cancellables = Set<AnyCancellable>()
-  
   init(
     locationProvider: some LocationProviding,
     cloudKitServiceProvider: some CloudKitServiceProviding,
+    offsetProvider: some OffsetProviding,
     baseURLPath: StaticString
   ) {
     locationProvider.currentLocation
-      .map { self.translateToQueryDict(from: $0) }
-      .combineLatest(cloudKitServiceProvider.fetchedAPIKey.map { self.translateToHeader(from: $0.value)})
+      .combineLatest(
+        cloudKitServiceProvider.fetchedAPIKey.map { self.translateToHeader(from: $0.value)},
+        offsetProvider.currentPageOffset
+      )
       .receive(on: RunLoop.main)
-      .sink { locationParameters, authHeader in
+      .sink { [unowned self] location, authHeader, offset in
+        let queryParams = self.translateToQueryDict(from: location, offSet: offset)
         let request = YelpRequest(
           path: baseURLPath,
           headers: authHeader,
-          parameters: locationParameters,
+          parameters: queryParams,
           resource: Resource<[Restaurant]>(
             parse: {
               do {
@@ -43,10 +46,14 @@ class YelpRequestProvider {
       }.store(in: &cancellables)
   }
   
-  private func translateToQueryDict(from location: CLLocation) -> [String : String] {
+  private func translateToQueryDict(
+    from location: CLLocation,
+    offSet: Int
+  ) -> [String : String] {
     [
       "latitude" : String(location.coordinate.latitude),
-      "longitude" : String(location.coordinate.longitude)
+      "longitude" : String(location.coordinate.longitude),
+      "offset" : String(offSet)
     ]
   }
   

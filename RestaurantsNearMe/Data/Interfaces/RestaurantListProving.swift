@@ -11,7 +11,10 @@ import Combine
 // sourcery: AutoMockable
 protocol RestaurantListProviding {
   var restaurants: AnyPublisher<[Restaurant], Never> { get }
+  // TODO: - These should be combined into one
   var fetchingError: AnyPublisher<String, Never> { get }
+  var isLoading: AnyPublisher<Bool, Never> { get }
 
-  func updateRestaurants() async
+  /// Uses offset, to paginate the correct subset of results
+  func updateRestaurants(for request: YelpRequest) async
 }
