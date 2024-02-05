@@ -12,6 +12,12 @@
 		3901589F2A984428001BF219 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3901589E2A984428001BF219 /* Assets.xcassets */; };
 		390158A22A984428001BF219 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 390158A12A984428001BF219 /* Preview Assets.xcassets */; };
 		3907872E2B4F3CAA0075AA24 /* YelpRequestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3907872D2B4F3CAA0075AA24 /* YelpRequestProvider.swift */; };
+		391D21D72B70250400220909 /* FetchingActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391D21D62B70250400220909 /* FetchingActor.swift */; };
+		391D21D92B70316400220909 /* OffsetProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391D21D82B70316400220909 /* OffsetProviding.swift */; };
+		391D21DC2B70322E00220909 /* OffsetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391D21DB2B70322E00220909 /* OffsetProvider.swift */; };
+		391D21DE2B70734100220909 /* URLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391D21DD2B70734100220909 /* URLs.swift */; };
+		39439A332B616A7E00A98D04 /* RestaurantListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39439A322B616A7E00A98D04 /* RestaurantListRow.swift */; };
+		39439A352B6200AE00A98D04 /* Image_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39439A342B6200AE00A98D04 /* Image_Extensions.swift */; };
 		39477BD02B114A4500D9895B /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39477BCF2B114A4500D9895B /* LoadingView.swift */; };
 		39477BD42B1191A200D9895B /* SplashScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39477BD32B1191A200D9895B /* SplashScreenViewModel.swift */; };
 		39477BDD2B12A1E300D9895B /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39477BDC2B12A1E300D9895B /* Toast.swift */; };
@@ -50,6 +56,12 @@
 		3901589E2A984428001BF219 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		390158A12A984428001BF219 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3907872D2B4F3CAA0075AA24 /* YelpRequestProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YelpRequestProvider.swift; sourceTree = "<group>"; };
+		391D21D62B70250400220909 /* FetchingActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchingActor.swift; sourceTree = "<group>"; };
+		391D21D82B70316400220909 /* OffsetProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetProviding.swift; sourceTree = "<group>"; };
+		391D21DB2B70322E00220909 /* OffsetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetProvider.swift; sourceTree = "<group>"; };
+		391D21DD2B70734100220909 /* URLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLs.swift; sourceTree = "<group>"; };
+		39439A322B616A7E00A98D04 /* RestaurantListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantListRow.swift; sourceTree = "<group>"; };
+		39439A342B6200AE00A98D04 /* Image_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image_Extensions.swift; sourceTree = "<group>"; };
 		39477BCF2B114A4500D9895B /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		39477BD32B1191A200D9895B /* SplashScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenViewModel.swift; sourceTree = "<group>"; };
 		39477BDC2B12A1E300D9895B /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
@@ -134,6 +146,15 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		391D21DA2B7031B200220909 /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				391D21D82B70316400220909 /* OffsetProviding.swift */,
+				39EA1C002B40DAAF00F3B0DC /* LocationProviding.swift */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
 		39477BD52B11963D00D9895B /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				39B91F832B5C65BA00C5FAE5 /* URL_Extensions.swift */,
+				391D21DD2B70734100220909 /* URLs.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -202,6 +224,7 @@
 				3907872D2B4F3CAA0075AA24 /* YelpRequestProvider.swift */,
 				39B91F8B2B5ECAD800C5FAE5 /* YelpRequestError.swift */,
 				39B91F8D2B5ED0D400C5FAE5 /* YelpResult.swift */,
+				391D21D62B70250400220909 /* FetchingActor.swift */,
 			);
 			path = YelpRequest;
 			sourceTree = "<group>";
@@ -209,10 +232,11 @@
 		39EA1BFF2B40DA8E00F3B0DC /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				39EA1C002B40DAAF00F3B0DC /* LocationProviding.swift */,
+				391D21DA2B7031B200220909 /* Interfaces */,
 				39EA1C022B40DB4900F3B0DC /* LocationProvider.swift */,
 				39EA1C042B40DC3000F3B0DC /* RestaurantsNearMeAssembly.swift */,
 				39EA1C062B40E5A500F3B0DC /* LocationError.swift */,
+				391D21DB2B70322E00220909 /* OffsetProvider.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -224,6 +248,7 @@
 				39EA1C0F2B42039D00F3B0DC /* DeferredLoadingFullAnimationModifier.swift */,
 				39B91F852B5C67A100C5FAE5 /* StaticString_Extensions.swift */,
 				39B91F8F2B5EDDD700C5FAE5 /* HTTPClientError_Extensions.swift */,
+				39439A342B6200AE00A98D04 /* Image_Extensions.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -243,6 +268,7 @@
 			children = (
 				39EA1C082B40EC6600F3B0DC /* RestaurantListViewModel.swift */,
 				39EA1C112B426C0800F3B0DC /* RestaurantListView.swift */,
+				39439A322B616A7E00A98D04 /* RestaurantListRow.swift */,
 			);
 			path = RestaurantListViewModel;
 			sourceTree = "<group>";
@@ -357,7 +383,9 @@
 			files = (
 				39B91F902B5EDDD700C5FAE5 /* HTTPClientError_Extensions.swift in Sources */,
 				39B91F862B5C67A100C5FAE5 /* StaticString_Extensions.swift in Sources */,
+				391D21DC2B70322E00220909 /* OffsetProvider.swift in Sources */,
 				39C3F6942B4F375900D388DA /* Restaurant.swift in Sources */,
+				39439A352B6200AE00A98D04 /* Image_Extensions.swift in Sources */,
 				39B91F842B5C65BA00C5FAE5 /* URL_Extensions.swift in Sources */,
 				394D6E842B2A4C7F0041B56E /* AutoGeneratedMocks.swift in Sources */,
 				39EA1C072B40E5A500F3B0DC /* LocationError.swift in Sources */,
@@ -372,6 +400,7 @@
 				39EA1C1A2B43B6D700F3B0DC /* YelpRequest.swift in Sources */,
 				394D6E812B2961DB0041B56E /* CloudKitServiceActor.swift in Sources */,
 				39477BEA2B14FF4600D9895B /* APIKey.swift in Sources */,
+				391D21DE2B70734100220909 /* URLs.swift in Sources */,
 				39B91F8A2B5CC10C00C5FAE5 /* RestaurantListProvider.swift in Sources */,
 				39B91F8E2B5ED0D400C5FAE5 /* YelpResult.swift in Sources */,
 				39EA1C012B40DAAF00F3B0DC /* LocationProviding.swift in Sources */,
@@ -381,10 +410,13 @@
 				39EA1C0C2B42004800F3B0DC /* Color_Extensions.swift in Sources */,
 				39477BEE2B153E9200D9895B /* CloudKitServiceProviding.swift in Sources */,
 				39477BD02B114A4500D9895B /* LoadingView.swift in Sources */,
+				39439A332B616A7E00A98D04 /* RestaurantListRow.swift in Sources */,
+				391D21D72B70250400220909 /* FetchingActor.swift in Sources */,
 				39477BF02B1542F000D9895B /* CloudKitServiceError.swift in Sources */,
 				39477BDD2B12A1E300D9895B /* Toast.swift in Sources */,
 				39B91F8C2B5ECAD800C5FAE5 /* YelpRequestError.swift in Sources */,
 				39EA1C032B40DB4900F3B0DC /* LocationProvider.swift in Sources */,
+				391D21D92B70316400220909 /* OffsetProviding.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

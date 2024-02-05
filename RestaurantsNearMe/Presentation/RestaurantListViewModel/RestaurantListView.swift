@@ -11,21 +11,34 @@ struct RestaurantListView: View {
   @ObservedObject var viewModel: RestaurantListViewModel
   
   var body: some View {
-    ScrollView(.vertical) {
-      Text("Loading Complete")
-        .transition(AnyTransition.opacity.animation(.easeIn(duration: 0.5)))
-        .foregroundStyle(Color.white)
+    VStack {
+      listView
+      if viewModel.isLoading {
+        ProgressView()
+      }
+    }.background(Color.white)
+  }
+  
+  private var listView: some View {
+    NavigationStack {
+      let items = viewModel.restaurants.enumerated().map { $0 }
+      List(items, id: \.element.id) { index, rest in
+        NavigationLink {
+          Text("More detail for \(rest.name)")
+        } label: {
+          RestaurantListRow(restaurant: rest)
+            .frame(height: 80)
+            .onAppear {
+              viewModel.loadMoreDataIfNeeded(for: index)
+            }
+        }
+      }
     }
     .onAppear {
       viewModel.askLocationPermissionsIfNeeded()
     }
     .alert(isPresented: $viewModel.showLocationRedirect) {
       locationRedirectAlert
-    }
-    .task(id: viewModel.areLocationPermissionsValid){
-      if viewModel.areLocationPermissionsValid {
-        await viewModel.retrieveRestaurants()
-      }
     }
   }
 

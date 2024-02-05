@@ -8,23 +8,36 @@
 import Foundation
 import Networking
 import UIKit
+import Combine
 
 class RestaurantListViewModel: ObservableObject {
   @Published var locationError: String?
+  @Published var requestError: String?
   @Published var showLocationRedirect = false
   @Published var areLocationPermissionsValid = false
   @Published var restaurants = [Restaurant]()
-  @Published var requestError: String?
+  @Published private (set) var isLoading = false
   
+  // MARK: - Infinite Scroll
+  private let itemsFromEndThreshold = 3
+  private var totalItemsAvailable: Int?
+  private var itemsLoadedCount = 0
+  
+  // MARK: - Location
   private let locationProvider: any LocationProviding
   private let restaurantsListProvider: any RestaurantListProviding
+  private let offsetProvider: any OffsetProviding
+  
+  private var cancellables = Set<AnyCancellable>()
   
   init(
     locationProvider: some LocationProviding,
-    restaurantsListProvider: some RestaurantListProviding
+    restaurantsListProvider: some RestaurantListProviding,
+    offsetProvider: some OffsetProviding
   ) {
     self.locationProvider = locationProvider
     self.restaurantsListProvider = restaurantsListProvider
+    self.offsetProvider = offsetProvider
     locationProvider.locationErrorPropogator
       .receive(on: DispatchQueue.main)
       .map { String(describing: $0) }
@@ -40,11 +53,18 @@ class RestaurantListViewModel: ObservableObject {
 
     restaurantsListProvider.restaurants
       .receive(on: DispatchQueue.main)
-      .assign(to: &$restaurants)
+      .sink { [weak self] in
+        guard let self = self else { return }
+        self.restaurants += $0
+        self.itemsLoadedCount = self.restaurants.count
+      }.store(in: &cancellables)
     restaurantsListProvider.fetchingError
       .compactMap({ $0 })
       .receive(on: DispatchQueue.main)
       .assign(to: &$requestError)
+    restaurantsListProvider.isLoading
+      .receive(on: DispatchQueue.main)
+      .assign(to: &$isLoading)
   }
   
   func askLocationPermissionsIfNeeded() {
@@ -61,16 +81,27 @@ class RestaurantListViewModel: ObservableObject {
     UIApplication.shared.open(settingsURL)
   }
   
-  func retrieveRestaurants() async {
-    await restaurantsListProvider.updateRestaurants()
+  func loadMoreDataIfNeeded(for index: Int) {
+    guard !isLoading else { return }
+    if itemsLoadedCount - index <= itemsFromEndThreshold {
+      var itemsToLoad = itemsLoadedCount
+      if let totalItemsAvailable,
+        totalItemsAvailable - itemsToLoad < 20 {
+        itemsToLoad = totalItemsAvailable - itemsToLoad
+      }
+      offsetProvider.currentPageOffset.send(itemsToLoad)
+    }
   }
 }
 
 extension RestaurantListViewModel {
   static func preview() -> RestaurantListViewModel {
-    RestaurantListViewModel(
+    let viewModel = RestaurantListViewModel(
       locationProvider: LocationProvidingMock(),
-      restaurantsListProvider: RestaurantListProvidingMock()
+      restaurantsListProvider: RestaurantListProvidingMock(),
+      offsetProvider: OffsetProvidingMock()
     )
+    viewModel.restaurants = Array<Restaurant>(repeating: .preview(), count: 10)
+    return viewModel
   }
 }
